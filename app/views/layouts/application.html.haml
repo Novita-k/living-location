@@ -32,7 +32,7 @@
                 %li
                   = link_to "マイページ", "/users/#{current_user.id}"
                   = link_to "ログアウト", destroy_user_session_path, method: :delete
-            = link_to  "投稿する", "/tweets/new", class: "post"
+            = link_to  "投稿する", "/posts/new", class: "post"
         - else
           .grid-6
             = link_to "ログイン", new_user_session_path, class: 'post'

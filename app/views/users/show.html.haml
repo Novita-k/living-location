@@ -2,6 +2,6 @@
   %p
     = @nickname
     さんの投稿一覧
-  - @tweets.each do |tweet|
+  - @posts.each do |post|
     = render partial: "posts/post", @post
   = paginate(@posts)

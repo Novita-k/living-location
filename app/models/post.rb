@@ -4,7 +4,7 @@ class Post < ApplicationRecord
   validates :image, presence: true
 
   def self.search(search)
-    return Tweet.all unless search
-    Tweet.where('text LIKE(?)', "%#{search}%")
+    return Post.all unless search
+    Post.where('text LIKE(?)', "%#{search}%")
   end
 end

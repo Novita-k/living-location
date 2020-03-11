@@ -19,13 +19,13 @@ before_action :move_to_index, except: [:index, :show, :search]
   end
 
   def destory
-    tweet = Tweet.find(params[:id])
-    tweet.destroy
+    post = Post.find(params[:id])
+    post.destroy
   end
 
   def update
-    tweet = Tweet.find(params[:id])
-    tweet.update(tweet_params)
+    post = Post.find(params[:id])
+    post.update(post_params)
   end
 
   def show
