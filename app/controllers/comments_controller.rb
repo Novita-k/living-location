@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   def create
     Comment.create(comment_params)
-    redirect_to "/post/#{comment.post.id}"
+    redirect_to post_path(params[:post_id])
   end
 
   private

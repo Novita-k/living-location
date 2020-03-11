@@ -3,7 +3,7 @@ before_action :set_post, only: [:edit, :show]
 before_action :move_to_index, except: [:index, :show, :search]
 
   def index
-    @Posts = Post.includes(:user).order("created_at DESC").page(params[:page]).per(5)
+    @posts = Post.includes(:user).order("created_at DESC").page(params[:page]).per(5)
   end
 
   def new
@@ -18,7 +18,7 @@ before_action :move_to_index, except: [:index, :show, :search]
     
   end
 
-  def destory
+  def destroy
     post = Post.find(params[:id])
     post.destroy
   end
@@ -30,7 +30,7 @@ before_action :move_to_index, except: [:index, :show, :search]
 
   def show
     @comment = Comment.new
-    @comments = @posts.comments.includes(:user)
+    @comments = @post.comments.includes(:user)
   end
 
   def search
@@ -42,7 +42,7 @@ before_action :move_to_index, except: [:index, :show, :search]
     params.require(:post).permit(:title, :image, :text).merge(user_id: current_user.id)
   end
 
-  def before_action
+  def set_post
     @post = Post.find(params[:id])
   end
 

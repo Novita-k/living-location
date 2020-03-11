@@ -3,4 +3,4 @@
     = form_with(model: @post, local: true) do |form|
       %h3
         編集する
-      = render partial: "form", @post
+      = render partial: "form", locals: { form: form }
