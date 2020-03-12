@@ -40,6 +40,7 @@ before_action :move_to_index, except: [:index, :show, :search]
   private
   def post_params
     params.require(:post).permit(:title, :image, :text).merge(user_id: current_user.id)
+    # binding.pry
   end
 
   def set_post

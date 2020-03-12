@@ -1,4 +1,10 @@
-.content_post{:style => "background-image: url(#{post.image});"}
+-# {:style => "background-image: url(#{post.image});"}
+.content_post
+  -# = image_tag 'post.image', alt: '', height: '', width: '', class: ''
+  -if post.image.attached?
+    = image_tag post.thumbnail
+  %span.title
+    = post.title
   .more
     %span= image_tag 'arrow_top.png'
     %ul.more_list
