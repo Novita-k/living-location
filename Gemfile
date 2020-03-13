@@ -70,3 +70,5 @@ gem 'haml-rails'
 gem 'font-awesome-sass'
 gem 'exifr'
 gem 'carrierwave'
+gem "gmaps4rails"
+gem "geocoder"

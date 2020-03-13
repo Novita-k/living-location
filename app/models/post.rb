@@ -6,9 +6,8 @@ class Post < ApplicationRecord
   belongs_to :user
   validates :image, presence: true
 
-  # def thumbnail
-  #   return self.image.variant(resize: '600x600').processed
-  # end
+  geocoded_by :address
+  after_validation :geocode
 
   def self.search(search)
     return Post.all unless search
