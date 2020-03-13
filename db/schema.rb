@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2020_03_11_094035) do
   end
 
   create_table "posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "image", null: false
     t.string "title"
     t.text "text"
     t.bigint "user_id"

@@ -11,7 +11,14 @@ before_action :move_to_index, except: [:index, :show, :search]
   end
 
   def create
-    Post.create(post_params)
+    @post = Post.create(post_params)
+    if @post.save
+    redirect_to root_path
+    else
+      @posts = Post.includes(:user).order("created_at DESC").page(params[:page]).per(5)
+      flash.now[:alert] = 'メッセージを入力してください。'
+      render :index
+    end
   end
 
   def edit
@@ -40,7 +47,6 @@ before_action :move_to_index, except: [:index, :show, :search]
   private
   def post_params
     params.require(:post).permit(:title, :image, :text).merge(user_id: current_user.id)
-    # binding.pry
   end
 
   def set_post

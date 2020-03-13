@@ -1,0 +1,17 @@
+.notification {
+  .notice {
+    width: 100%;
+    height: 50px;
+    background-color: $clear_blue;
+    color: $white;
+    text-align: center;
+  }
+
+  .alert {
+    width: 100%;
+    height: 50px;
+    background-color: $red;
+    color: $white;
+    text-align: center;
+  }
+}
