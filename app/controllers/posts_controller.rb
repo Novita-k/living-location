@@ -12,6 +12,8 @@ before_action :move_to_index, except: [:index, :show, :search]
 
   def create
     @post = Post.create(post_params)
+    # @exif = @post.image.get_exif(@post.image)
+    # binding.pry
     if @post.save
     redirect_to root_path
     else
@@ -51,7 +53,7 @@ before_action :move_to_index, except: [:index, :show, :search]
 
   private
   def post_params
-    params.require(:post).permit(:title, :image, :text).merge(user_id: current_user.id)
+    params.require(:post).permit(:title, :image, :text,:latitude, :longitude, :address).merge(user_id: current_user.id)
   end
 
   def set_post

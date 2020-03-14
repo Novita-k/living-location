@@ -8,16 +8,16 @@ class ImageUploader < CarrierWave::Uploader::Base
   #   process resize_to_fit: [600, 600] 
   # end 
 
-  process resize_to_fit: [600, 600]
+  process resize_to_fit: [800, 800]
 
   process :get_exif_info
 
   def get_exif_info
     require 'exifr/jpeg'
     exif = EXIFR::JPEG::new(self.file.file)
-    binding.pry
-    # exif.gps.longitude
-    # exif.gps.latitude
+    longitude = exif.gps.longitude
+    latitude = exif.gps.latitude
+    # binding.pry
   end 
 
   # Choose what kind of storage to use for this uploader:
