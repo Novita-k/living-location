@@ -231,16 +231,12 @@ div.contents.row {
   font-family: "游ゴシック", "YuGothic";
   }
   div.content_post {
-    @include boxBase(10px auto ,15px);
+    @include boxBase(10px auto ,0px);
     display: flex;
     justify-content: center;
     position: relative;
-    // margin: 0 auto;
-    // height: 600px;
-    width: 80%;
+    width: 800px;
     color: #fff;
-    // background-size: cover;
-    // background-position: center center;
     border-radius: 3px;
     box-shadow: 0 0 10px rgba($black,0.2);
     &:after {
@@ -251,28 +247,33 @@ div.contents.row {
       left: 0;
       right: 0;
       @include filter-gradient(#000000, #a60000, vertical);
-      @include background-image(linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 62%,rgba(0,0,0,0.85) 100%));
+      // @include background-image(linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0) 85%,rgba(0, 4, 255, 0.5) 85%));
       z-index: 1;
       border-radius: 3px;
     }
     span.title {
+      font-size: 35px;
+      text-shadow: 1px 1px 3px rgb(0, 0, 0),
+      -1px -1px 1px rgb(0, 0, 0),
+      -1px 1px 1px rgb(0, 0, 0),
+      1px -1px 1px rgb(0, 0, 0);
       color: white;
-      height: 20px;
-      background-color: #aaaa;
+      height: 35px;
+      padding-left: 3px;
       position: absolute;
-      line-height: 20px;
-      top: 20px;
-      left: 30px;
+      line-height: 35px;
+      top: 10px;
+      left: 15px;
       z-index: 2;
     }
     .more {
       position: absolute;
       cursor: pointer;
-      top: 20px;
-      right: 30px;
+      top: 10px;
+      right: 15px;
       z-index: 2;
-      height: 100px;
-      width: 80px;
+      height: 50px;
+      width: 50px;
       text-align: right;
       &:hover ul.more_list {
         display: block;
@@ -307,21 +308,21 @@ div.contents.row {
     p {
       @extend .serif;
       position: absolute;
-      left: 30px;
-      right: 100px;
-      bottom: 30px;
+      left: 15px;
+      right: 200px;
+      bottom: 15px;
       margin: 0;
-      font-size: 15px;
+      font-size: 20px;
       z-index: 2;
       font-weight: bold;
-      text-shadow: 0 0 2px #000, 0 0 1px #000, 0 0 1px #000;
+      text-shadow: 1px 1px 0px #000, -1px 1px 0px #000, 1px -1px 0px #000, -1px -1px 0px #000;
     }
     span.name {
       position: absolute;
-      right: 30px;
-      bottom: 30px;
+      right: 10px;
+      bottom: 15px;
       z-index: 2;
-      font-size: 13px;
+      font-size: 15px;
       a {
         display: block;
         color: #aaa;
@@ -329,6 +330,12 @@ div.contents.row {
           text-decoration: underline;
           color: #aaa;
         }
+      }
+      a.address {
+        font-weight: bold;
+        font-size: 20px;
+        color: $white;
+        text-shadow: 1px 1px 0px #000, -1px 1px 0px #000, 1px -1px 0px #000, -1px -1px 0px #000;
       }
       span {
         font-size: 9px;

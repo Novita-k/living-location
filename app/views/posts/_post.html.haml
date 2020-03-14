@@ -4,7 +4,7 @@
   %span.title
     = post.title
   .more
-    %span= image_tag 'arrow_top.png'
+    %span= image_tag 'icons8-15.png'
     %ul.more_list
       %li
         = link_to '詳細', "/posts/#{post.id}", method: :get
@@ -18,3 +18,5 @@
     %a{:href => "/users/#{post.user.id}"}
       %span 投稿者
       = post.user.nickname
+    %a.address{:href => "#"}
+      = post.address
