@@ -1,7 +1,6 @@
 class Post < ApplicationRecord
   # has_one_attached :image
   mount_uploader :image, ImageUploader
-  mount_uploader :longitude, ImageUploader
 
   has_many :comments
   belongs_to :user
