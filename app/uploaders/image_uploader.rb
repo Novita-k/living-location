@@ -13,7 +13,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   # process :get_exif_info
 
   # def get_exif_info
-  #   require 'exifr/jpeg'
+    require 'exifr/jpeg'
   #   exif = EXIFR::JPEG::new(self.file.file)
   #   longitude = exif.gps.longitude
   #   latitude = exif.gps.latitude
