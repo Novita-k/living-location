@@ -12,9 +12,11 @@ before_action :move_to_index, except: [:index, :show, :search]
 
   def create
     @post = Post.new(post_params)
-    @post.latitude = EXIFR::JPEG::new(@post.image.file.file).gps.latitude
-    @post.longitude = EXIFR::JPEG::new(@post.image.file.file).gps.longitude
-    @post.save
+    require 'exifr/jpeg'
+    if EXIFR::JPEG.new(@post.image.file.file).exif?
+      @post.latitude = EXIFR::JPEG::new(@post.image.file.file).gps.latitude
+      @post.longitude = EXIFR::JPEG::new(@post.image.file.file).gps.longitude
+    end
     if @post.save
     redirect_to root_path
     else
