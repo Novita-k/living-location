@@ -25,3 +25,4 @@
           = f.password_field :password_confirmation, autocomplete: "off"
         .actions
           = f.submit "Sign up"
+    = button_to "Googleでログイン", user_google_oauth2_omniauth_authorize_path
