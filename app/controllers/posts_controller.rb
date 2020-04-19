@@ -13,15 +13,18 @@ before_action :move_to_index, except: [:index, :show, :search]
   def create
     @post = Post.new(post_params)
     require 'exifr/jpeg'
-    if EXIFR::JPEG.new(@post.image.file.file).exif?
+    if @post.image.present? && EXIFR::JPEG.new(@post.image.file.file).gps.present?
       @post.latitude = EXIFR::JPEG::new(@post.image.file.file).gps.latitude
       @post.longitude = EXIFR::JPEG::new(@post.image.file.file).gps.longitude
+    else
+      flash.now[:alert] = "写真無しの投稿。位置情報なしの写真は投稿出来ません"
+      render :new and return
     end
     if @post.save
     redirect_to root_path
     else
       @posts = Post.includes(:user).order("created_at DESC").page(params[:page]).per(5)
-      flash.now[:alert] = 'メッセージを入力してください。'
+      flash.now[:alert] = '投稿に失敗しました。'
       render :index
     end
   end
