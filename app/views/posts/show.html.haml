@@ -33,7 +33,7 @@
             %strong
               = link_to comment.user.nickname, "/users/#{comment.user_id}"
             = comment.text
-%script{:async => "", :defer => "defer", :src => "https://maps.googleapis.com/maps/api/js?language=ja&key=AIzaSyCyKTUBMt03ZflZ8HJFjA0Shh_WQXch6qI&callback=g_map"}
+%script{:async => "", :defer => "defer", :src => "https://maps.googleapis.com/maps/api/js?language=ja&key=#{ENV['GOOGLE_MAP_APIKEY']}&callback=g_map"}
 :javascript
   function g_map () {
     'use strict';
