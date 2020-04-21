@@ -1,6 +1,6 @@
 .contents.row
   .content_post
-    = image_tag @post.image.url
+    = image_tag @post.image.url, class: "post-image"
     - if user_signed_in? && current_user.id == @post.user_id
       %span.title
         = @post.title
@@ -39,7 +39,7 @@
     'use strict';
     var map = document.getElementById('map');
     var map;
-    var place = {lat: #{EXIFR::JPEG.new(@post.image.file.file).gps.latitude}, lng: #{EXIFR::JPEG.new(@post.image.file.file).gps.longitude}};
+    var place = {lat: #{@post.latitude}, lng: #{@post.longitude}};
     map = new google.maps.Map(map, {
       center: place,
       zoom: 5

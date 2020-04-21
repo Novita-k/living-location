@@ -239,6 +239,10 @@ div.contents.row {
     color: #fff;
     border-radius: 3px;
     box-shadow: 0 0 10px rgba($black,0.2);
+    .post-image {
+      width: 800px;
+      object-fit: contain;
+    }
     &:after {
       content: '';
       position: absolute;

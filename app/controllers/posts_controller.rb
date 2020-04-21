@@ -1,24 +1,40 @@
 class PostsController < ApplicationController
+before_action :set_posts, only: [:index, :create]
 before_action :set_post, only: [:edit, :show]
 before_action :move_to_index, except: [:index, :show, :search]
 
   def index
-    @posts = Post.includes(:user).order("created_at DESC").page(params[:page]).per(5)
+    
   end
 
   def new
     @post = Post.new
   end
 
+  def renew
+    @post = Post.new
+  end
+
   def create
-    @post = Post.new(post_params)
     require 'exifr/jpeg'
-    if @post.image.present? && EXIFR::JPEG.new(@post.image.file.file).gps.present?
-      @post.latitude = EXIFR::JPEG::new(@post.image.file.file).gps.latitude
-      @post.longitude = EXIFR::JPEG::new(@post.image.file.file).gps.longitude
-    else
-      flash.now[:alert] = "写真無しの投稿。位置情報なしの写真は投稿出来ません"
+    @post = Post.new(post_params)
+    results = Geocoder.search(@post[:address])
+
+    unless @post.image.present?
+      flash.now[:alert] = "写真無しの投稿は出来ません"
       render :new and return
+    else
+      if @post.image.filename.downcase.end_with?(".jpeg", ".jpg") && EXIFR::JPEG.new(@post.image.file.file).gps.present?
+        @post.latitude = EXIFR::JPEG::new(@post.image.file.file).gps.latitude
+        @post.longitude = EXIFR::JPEG::new(@post.image.file.file).gps.longitude
+      elsif @post.address.present? && results.first.present?
+        @post.save
+        redirect_to root_path and return
+      else
+        flash.now[:alert] = "位置情報が有りません。実在する地名、又は位置情報を追加して下さい"
+        # @post.save
+        render "renew" and return
+      end
     end
     if @post.save
     redirect_to root_path
@@ -46,10 +62,11 @@ before_action :move_to_index, except: [:index, :show, :search]
   def show
     @comment = Comment.new
     @comments = @post.comments.includes(:user)
-    @hash = Gmaps4rails.build_markers(@place) do |place, marker|
+    # @place = Post.find(params[:id])
+    @hash = Gmaps4rails.build_markers(@post) do |place, marker|
       marker.lat place.latitude
       marker.lng place.longitude
-      marker.infowindow place.name
+      marker.infowindow place.text
     end
   end
 
@@ -60,6 +77,10 @@ before_action :move_to_index, except: [:index, :show, :search]
   private
   def post_params
     params.require(:post).permit(:title, :image, :text,:latitude, :longitude, :address).merge(user_id: current_user.id)
+  end
+
+  def set_posts
+    @posts = Post.includes(:user).order("created_at DESC").page(params[:page]).per(5)
   end
 
   def set_post
