@@ -4,7 +4,19 @@ before_action :set_post, only: [:edit, :show]
 before_action :move_to_index, except: [:index, :show, :search]
 
   def index
-    
+    # @post_all = Post.all
+    @hash = Gmaps4rails.build_markers(@posts) do |place, marker|
+      marker.lat place.latitude
+      marker.lng place.longitude
+      marker.infowindow render_to_string(partial: "posts/infowindow", locals: { place: place })
+      # marker.picture({
+      #   :url    => place.image.file.file,
+      #   :width  => "40",
+      #   :height => "40"
+      #  })
+      marker.json({:id => place.id})
+      # binding.pry
+    end
   end
 
   def new
@@ -32,7 +44,6 @@ before_action :move_to_index, except: [:index, :show, :search]
         redirect_to root_path and return
       else
         flash.now[:alert] = "位置情報が有りません。実在する地名、又は位置情報を追加して下さい"
-        # @post.save
         render "renew" and return
       end
     end
@@ -66,7 +77,14 @@ before_action :move_to_index, except: [:index, :show, :search]
     @hash = Gmaps4rails.build_markers(@post) do |place, marker|
       marker.lat place.latitude
       marker.lng place.longitude
-      marker.infowindow place.text
+      marker.infowindow render_to_string(partial: "posts/infowindow", locals: { place: place })
+      # marker.picture({
+      #   url: place.image.file.file,
+      #   width: "40",
+      #   height: "40"
+      #  })
+      marker.json({:id => place.id})
+      # binding.pry
     end
   end
 

@@ -2,6 +2,21 @@
   = form.text_field :keyword, placeholder: "投稿を検索する", class: "search-input"
   = form.submit "検索", class: "search-btn"
 .contents.row
+  %div#map
   - @posts.each do |post|
     = render partial: "post", locals: { post: post }
   = paginate(@posts)
+
+%script{:async => "", :defer => "defer", :src => "https://maps.googleapis.com/maps/api/js?language=ja&key=#{ENV['GOOGLE_MAP_APIKEY']}&callback=g_map"}
+%script{:src => "//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"}
+%script{:src => "//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js", :type => "text/javascript"}
+:javascript
+  document.addEventListener("turbolinks:load", function(){
+    handler = Gmaps.build("Google");
+    handler.buildMap({ provider: {}, internal: {id: "map"}}, function(){
+      markers = handler.addMarkers(#{raw @hash.to_json});
+      handler.bounds.extendWith(markers);
+      handler.fitMapToBounds();
+      handler.getMap().setZoom(3);
+    });
+  });

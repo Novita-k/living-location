@@ -34,44 +34,45 @@
               = link_to comment.user.nickname, "/users/#{comment.user_id}"
             = comment.text
 %script{:async => "", :defer => "defer", :src => "https://maps.googleapis.com/maps/api/js?language=ja&key=#{ENV['GOOGLE_MAP_APIKEY']}&callback=g_map"}
+%script{:src => "//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"}
+%script{:src => "//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js", :type => "text/javascript"}
 :javascript
-  function g_map () {
-    'use strict';
-    var map = document.getElementById('map');
-    var map;
-    var place = {lat: #{@post.latitude}, lng: #{@post.longitude}};
-    map = new google.maps.Map(map, {
-      center: place,
-      zoom: 5
+  document.addEventListener("turbolinks:load", function(){
+    handler = Gmaps.build("Google");
+    handler.buildMap({ provider: {}, internal: {id: "map"}}, function(){
+      markers = handler.addMarkers(#{raw @hash.to_json}, {animation: google.maps.Animation.DROP});
+      handler.bounds.extendWith(markers);
+      handler.fitMapToBounds();
+      handler.getMap().setZoom(6);
     });
-    var marker = new google.maps.Marker({
-      position: place,
-      map: map,
-      title: "address",
-      animation: google.maps.Animation.DROP
-    });
-    map.addListener('click', function(e) {
-      this.panTo(e.latLng);
-      var marker = new google.maps.Marker({
-        position: e.latLng,
-        map: this,
-        title: e.latLng.toString(),
-        animation: google.maps.Animation.DROP
-      });
-      marker.addListener('click', function() {
-        this.setMap(null)
-      });
-    });
-  }
-//     marker.addListener('click', function() {
-//       this.setMap(null)
-//     });
+  });
 
 -# :javascript
--#   handler = Gmaps.build("Google");
--#   handler.buildMap({ provider: {}, internal: {id: "map"}}, function(){
--#     markers = handler.addMarkers(<%= raw @hash.to_json %>);
--#     handler.bounds.extendWith(markers);
--#     handler.fitMapToBounds();
--#     handler.getMap().setZoom(16);# ズームの大きさを指定
--#   });
+-#   function g_map () {
+-#     'use strict';
+-#     var map = document.getElementById('map');
+-#     var map;
+-#     var place = {lat: #{@post.latitude}, lng: #{@post.longitude}};
+-#     map = new google.maps.Map(map, {
+-#       center: place,
+-#       zoom: 5
+-#     });
+-#     var marker = new google.maps.Marker({
+-#       position: place,
+-#       map: map,
+-#       title: "address",
+-#       animation: google.maps.Animation.DROP
+-#     });
+-#     map.addListener('click', function(e) {
+-#       this.panTo(e.latLng);
+-#       var marker = new google.maps.Marker({
+-#         position: e.latLng,
+-#         map: this,
+-#         title: e.latLng.toString(),
+-#         animation: google.maps.Animation.DROP
+-#       });
+-#       marker.addListener('click', function() {
+-#         this.setMap(null)
+-#       });
+-#     });
+-#   };
