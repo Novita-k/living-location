@@ -33,9 +33,7 @@
             %strong
               = link_to comment.user.nickname, "/users/#{comment.user_id}"
             = comment.text
-%script{:async => "", :defer => "defer", :src => "https://maps.googleapis.com/maps/api/js?language=ja&key=#{ENV['GOOGLE_MAP_APIKEY']}&callback=g_map"}
-%script{:src => "//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"}
-%script{:src => "//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js", :type => "text/javascript"}
+
 :javascript
   document.addEventListener("turbolinks:load", function(){
     handler = Gmaps.build("Google");
@@ -60,7 +58,7 @@
 -#     var marker = new google.maps.Marker({
 -#       position: place,
 -#       map: map,
--#       title: "address",
+-#       title: #{@post.address},
 -#       animation: google.maps.Animation.DROP
 -#     });
 -#     map.addListener('click', function(e) {
