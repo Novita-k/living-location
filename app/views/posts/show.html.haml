@@ -35,7 +35,6 @@
             = comment.text
 
 :javascript
-  document.addEventListener("turbolinks:load", function(){
     handler = Gmaps.build("Google");
     handler.buildMap({ provider: {}, internal: {id: "map"}}, function(){
       markers = handler.addMarkers(#{raw @hash.to_json}, {animation: google.maps.Animation.DROP});
@@ -43,8 +42,7 @@
       handler.fitMapToBounds();
       handler.getMap().setZoom(6);
     });
-  });
-
+    
 -# :javascript
 -#   function g_map () {
 -#     'use strict';
