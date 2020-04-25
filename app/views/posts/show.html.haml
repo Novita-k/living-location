@@ -35,14 +35,14 @@
             = comment.text
 
 :javascript
-    handler = Gmaps.build("Google");
-    handler.buildMap({ provider: {}, internal: {id: "map"}}, function(){
-      markers = handler.addMarkers(#{raw @hash.to_json}, {animation: google.maps.Animation.DROP});
-      handler.bounds.extendWith(markers);
-      handler.fitMapToBounds();
-      handler.getMap().setZoom(6);
-    });
-    
+  handler = Gmaps.build("Google");
+  handler.buildMap({ provider: {}, internal: {id: "map"}}, function(){
+    markers = handler.addMarkers(#{raw @hash.to_json}, {animation: google.maps.Animation.DROP});
+    handler.bounds.extendWith(markers);
+    handler.fitMapToBounds();
+    handler.getMap().setZoom(6);
+  });
+
 -# :javascript
 -#   function g_map () {
 -#     'use strict';
