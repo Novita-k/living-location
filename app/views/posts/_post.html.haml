@@ -1,6 +1,5 @@
--# {:style => "background-image: url(#{post.image});"}
 .content_post
-  = image_tag post.image.url
+  = image_tag post.image.url, class: "post-image"
   %span.title
     = post.title
   .more

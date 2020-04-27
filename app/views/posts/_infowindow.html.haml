@@ -1,0 +1,5 @@
+%h3
+  = link_to place.title, "/posts/#{place.id}", "data-turbolinks": false
+= place.address
+%strong
+  = link_to "Googleマップで開く" ,"https://maps.google.co.jp/maps?q=loc:#{place.latitude},#{place.longitude}&iwloc=J",target: "_blank"

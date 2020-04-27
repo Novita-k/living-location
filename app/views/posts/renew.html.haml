@@ -1,0 +1,11 @@
+.contents.row
+  .container
+    = form_with(model: @post, local: true) do |form|
+      %h3
+        投稿する
+      = form.text_field :title, placeholder: "Title"
+      = form.file_field :image
+      = form.text_field :address, placeholder: "住所"
+      = form.text_area :text, placeholder: "text" , rows: "10"
+      = form.submit "SEND"
+

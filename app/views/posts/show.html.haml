@@ -1,6 +1,6 @@
 .contents.row
   .content_post
-    = image_tag @post.image.url
+    = image_tag @post.image.url, class: "post-image"
     - if user_signed_in? && current_user.id == @post.user_id
       %span.title
         = @post.title
@@ -33,45 +33,36 @@
             %strong
               = link_to comment.user.nickname, "/users/#{comment.user_id}"
             = comment.text
-%script{:async => "", :defer => "defer", :src => "https://maps.googleapis.com/maps/api/js?language=ja&key=AIzaSyCyKTUBMt03ZflZ8HJFjA0Shh_WQXch6qI&callback=g_map"}
+
 :javascript
-  function g_map () {
-    'use strict';
-    var map = document.getElementById('map');
-    var map;
-    var place = {lat: #{EXIFR::JPEG.new(@post.image.file.file).gps.latitude}, lng: #{EXIFR::JPEG.new(@post.image.file.file).gps.longitude}};
-    map = new google.maps.Map(map, {
-      center: place,
-      zoom: 5
-    });
-    var marker = new google.maps.Marker({
-      position: place,
-      map: map,
-      title: "address",
-      animation: google.maps.Animation.DROP
-    });
-    map.addListener('click', function(e) {
-      this.panTo(e.latLng);
-      var marker = new google.maps.Marker({
-        position: e.latLng,
-        map: this,
-        title: e.latLng.toString(),
-        animation: google.maps.Animation.DROP
-      });
-      marker.addListener('click', function() {
-        this.setMap(null)
-      });
-    });
-  }
-//     marker.addListener('click', function() {
-//       this.setMap(null)
-//     });
+
 
 -# :javascript
--#   handler = Gmaps.build("Google");
--#   handler.buildMap({ provider: {}, internal: {id: "map"}}, function(){
--#     markers = handler.addMarkers(<%= raw @hash.to_json %>);
--#     handler.bounds.extendWith(markers);
--#     handler.fitMapToBounds();
--#     handler.getMap().setZoom(16);# ズームの大きさを指定
--#   });
+-#   function g_map () {
+-#     'use strict';
+-#     var map = document.getElementById('map');
+-#     var map;
+-#     var place = {lat: #{@post.latitude}, lng: #{@post.longitude}};
+-#     map = new google.maps.Map(map, {
+-#       center: place,
+-#       zoom: 5
+-#     });
+-#     var marker = new google.maps.Marker({
+-#       position: place,
+-#       map: map,
+-#       title: #{@post.address},
+-#       animation: google.maps.Animation.DROP
+-#     });
+-#     map.addListener('click', function(e) {
+-#       this.panTo(e.latLng);
+-#       var marker = new google.maps.Marker({
+-#         position: e.latLng,
+-#         map: this,
+-#         title: e.latLng.toString(),
+-#         animation: google.maps.Animation.DROP
+-#       });
+-#       marker.addListener('click', function() {
+-#         this.setMap(null)
+-#       });
+-#     });
+-#   };
