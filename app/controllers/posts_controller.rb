@@ -4,16 +4,10 @@ before_action :set_post, only: [:edit, :show]
 before_action :move_to_index, except: [:index, :show, :search]
 
   def index
-    # @post_all = Post.all
     @hash = Gmaps4rails.build_markers(@posts) do |place, marker|
       marker.lat place.latitude
       marker.lng place.longitude
       marker.infowindow render_to_string(partial: "posts/infowindow", locals: { place: place })
-      # marker.picture({
-      #   :url    => place.image.file.file,
-      #   :width  => "40",
-      #   :height => "40"
-      #  })
       marker.json({:id => place.id})
       # binding.pry
     end
@@ -73,16 +67,11 @@ before_action :move_to_index, except: [:index, :show, :search]
   def show
     @comment = Comment.new
     @comments = @post.comments.includes(:user)
-    # @place = Post.find(params[:id])
+
     @hash = Gmaps4rails.build_markers(@post) do |place, marker|
       marker.lat place.latitude
       marker.lng place.longitude
       marker.infowindow render_to_string(partial: "posts/infowindow", locals: { place: place })
-      # marker.picture({
-      #   url: place.image.file.file,
-      #   width: "40",
-      #   height: "40"
-      #  })
       marker.json({:id => place.id})
       # binding.pry
     end
