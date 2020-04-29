@@ -12,7 +12,7 @@
           = link_to '編集', "/posts/#{post.id}/edit", method: :get
         %li
           = link_to '削除', "/posts/#{post.id}", method: :delete
-  = simple_format(post.text)
+  = simple_format(h(post.text))
   %span.name
     %a{:href => "/users/#{post.user.id}"}
       %span 投稿者

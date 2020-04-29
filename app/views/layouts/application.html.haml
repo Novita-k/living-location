@@ -3,6 +3,10 @@
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title LivingLocation
+    %script{:async => "", :defer => "defer", :src => "//maps.googleapis.com/maps/api/js?language=ja&key=#{ENV['GOOGLE_MAP_APIKEY']}"}
+    %script{:src => "//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"}
+    %script{:src => "//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js", :type => "text/javascript"}
+ 
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     = csrf_meta_tags
@@ -39,11 +43,7 @@
             = link_to "ログイン", new_user_session_path, class: 'post'
             = link_to "新規登録", new_user_registration_path, class: 'post'
 
-    %script{:async => "", :defer => "defer", :src => "https://maps.googleapis.com/maps/api/js?language=ja&key=#{ENV['GOOGLE_MAP_APIKEY']}"}
-    %script{:src => "//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"}
-    %script{:src => "//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js", :type => "text/javascript"}
     = yield
-    
     :javascript
       handler = Gmaps.build("Google");
       handler.buildMap({ provider: {}, internal: {id: "map"}}, function(){

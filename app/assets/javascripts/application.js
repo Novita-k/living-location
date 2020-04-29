@@ -12,8 +12,7 @@
 //
 //= require underscore
 //= require gmaps/google
+//= require jquery
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
-//= require jquery
-//= require jquery_ujs
