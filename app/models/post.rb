@@ -4,7 +4,7 @@ class Post < ApplicationRecord
 
   has_many :comments
   has_many :likes, dependent: :destroy
-  has_many :users, through: :likes, source: :user
+  has_many :liked_users, through: :likes, source: :user
   belongs_to :user
 
   validates :image, presence: true
