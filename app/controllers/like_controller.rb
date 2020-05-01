@@ -1,5 +1,6 @@
 class LikeController < ApplicationController
   def create
+    binding.pry
     @post = Post.find(params[:post_id])
     unless @post.like?(current_user)
       @post.add_like(current_user)
