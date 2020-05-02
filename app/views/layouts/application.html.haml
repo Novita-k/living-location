@@ -6,7 +6,7 @@
     %script{async: "", defer: "defer", src: "//maps.googleapis.com/maps/api/js?language=ja&key=#{ENV['GOOGLE_MAP_APIKEY']}"}
     %script{src: "//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"}
     %script{src: "//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js", type: "text/javascript"}
-    %link{as: "font", crossorigin: "", href: "assets/fonts/abel-v10-latin-regular.woff2", rel: "preload"}
+    -# %link{as: "font", crossorigin: "", href: "assets/fonts/abel-v10-latin-regular.woff2", rel: "preload"}
     
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
@@ -17,7 +17,7 @@
     %header.header
       .header__bar.row
         %h1.grid-6
-          = link_to "LivingLoction", root_path, "data-turbolinks": false
+          = link_to "Living Loction", root_path, "data-turbolinks": false
         - if user_signed_in?
           .user_nav.grid-6
             %span

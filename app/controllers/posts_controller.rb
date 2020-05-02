@@ -25,7 +25,7 @@ before_action :move_to_index, except: [:index, :show, :search]
     require 'exifr/jpeg'
     @post = Post.new(post_params)
     results = Geocoder.search(@post[:address])
-
+# binding.pry
     unless @post.image.present?
       flash.now[:alert] = "写真無しの投稿は出来ません"
       render :new and return
@@ -45,8 +45,7 @@ before_action :move_to_index, except: [:index, :show, :search]
     redirect_to root_path
     else
       @posts = Post.includes(:user).order("created_at DESC").page(params[:page]).per(5)
-      flash.now[:alert] = '投稿に失敗しました。'
-      render :index
+      render :new
     end
   end
 
@@ -67,6 +66,7 @@ before_action :move_to_index, except: [:index, :show, :search]
   def show
     @comment = Comment.new
     @comments = @post.comments.includes(:user)
+    @like = Like.new
 
     @hash = Gmaps4rails.build_markers(@post) do |place, marker|
       marker.lat place.latitude

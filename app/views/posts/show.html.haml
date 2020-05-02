@@ -11,31 +11,17 @@
             = link_to '編集', "/posts/#{@post.id}/edit", method: :get
           %li
             = link_to '削除', "/posts/#{@post.id}", method: :delete
-    = simple_format(h(@post.text))
     %span.name
       %a{:href => "/users/#{@post.user.id}"}
         %span 投稿者
         = @post.user.nickname
-      = render "like/like", post: @post
+      = render "likes/like", post: @post
+  .text-area
+    = tag.div @post.text, class: "text-space"
   %div#map
   .container
-    - if current_user
-      = form_with(model: [@post, @comment], local: true) do |form|
-        = form.text_area :text, placeholder: "コメントする", rows: "2"
-        = form.submit "SEND"
-    - else
-      %strong
-        %p ※※※ コメントの投稿には新規登録/ログインが必要です ※※※
-    .comments
-      %h4 ＜コメント一覧＞
-      - if @comments
-        - @comments.each do |comment|
-          %p
-            %strong
-              = link_to comment.user.nickname, "/users/#{comment.user_id}"
-            = comment.text
-
-:javascript
+    = render "layouts/error_messages", resource: @comment
+    = render partial: 'comments/form'
 
 
 -# :javascript

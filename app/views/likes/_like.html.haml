@@ -1,0 +1,8 @@
+- if current_user.like?(@post)
+  = link_to post_like_path(@post), class: "del_like", method: :delete do
+    %i{class: "fas fa-heart"}
+    = @post.likes.count
+- else
+  = link_to post_likes_path(@post), class: "add_like", method: :post do
+    %i{class: "far fa-heart"}
+    = @post.likes.count

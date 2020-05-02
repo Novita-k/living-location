@@ -60,6 +60,20 @@ body {
   padding-top: 60px;
 }
 
+#error_message {
+  font-family: "HIragino Kaku Gothic Pro", Osaka, Meiryo, "メイリオ", "ＭＳ Ｐゴシック", "MS P Gothic", sans-serif;
+  border: 2px solid #00ffff;
+  border-radius: 10px;
+  padding: 10px 20px;
+  text-align: center;
+  line-height: 20px;
+  color: #ff5500;
+  h2 {
+    color: #ff5500;
+    margin: 0;
+  }
+}
+
 #map {
   @include map
 }
@@ -123,10 +137,6 @@ a {
   }
 }
 
-.fas {
-  color: red;
-}
-
 h1,h2,h3,h4,h5,h6 {
 }
 
@@ -157,9 +167,11 @@ header.header {
   div.header__bar.row {
     position: relative;
     h1.grid-6 {
-      font-size: 20px;
+      font-size: 30px;
+      font-weight: bold;
       line-height: 41px;
       float: left;
+      margin-left: 30px;
       a {
         display: block;
       }
@@ -237,6 +249,9 @@ header.header {
   }
 }
 div.contents.row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   h2 {
     @include boxBase(20px 0, 0);
     font-weight: normal;
@@ -249,10 +264,27 @@ div.contents.row {
   .new_user{
   font-family: "游ゴシック", "YuGothic";
   }
-  div.content_post {
-    @include boxBase(10px auto ,0px);
+  .container {
+    @include boxBase(20px 0 ,30px);
+    box-shadow: 0 0 10px rgba($black,0.2);
+    background-color: $white;
+    box-sizing: border-box;
+    width: 800px;
+  }
+  .container-new {
+    @include boxBase(20px 0 ,30px);
+    box-shadow: 0 0 10px rgba($black,0.2);
+    background-color: $white;
+    box-sizing: border-box;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  div.content_post {
+    @include boxBase(10px auto 1px,0px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     position: relative;
     width: 800px;
     color: #fff;
@@ -275,7 +307,7 @@ div.contents.row {
       border-radius: 3px;
     }
     span.title {
-      font-size: 35px;
+      font-size: 30px;
       text-shadow: 1px 1px 3px rgb(0, 0, 0),
       -1px -1px 1px rgb(0, 0, 0),
       -1px 1px 1px rgb(0, 0, 0),
@@ -288,6 +320,7 @@ div.contents.row {
       top: 10px;
       left: 15px;
       z-index: 2;
+      overflow: auto;
     }
     .more {
       position: absolute;
@@ -328,22 +361,10 @@ div.contents.row {
         }
       }
     }
-    p {
-      @extend .serif;
-      position: absolute;
-      left: 15px;
-      right: 200px;
-      bottom: 15px;
-      margin: 0;
-      font-size: 20px;
-      z-index: 2;
-      font-weight: bold;
-      text-shadow: 1px 1px 0px #000, -1px 1px 0px #000, 1px -1px 0px #000, -1px -1px 0px #000;
-    }
     span.name {
       position: absolute;
       right: 10px;
-      bottom: 15px;
+      bottom: 5px;
       z-index: 2;
       font-size: 15px;
       text-align: right;
@@ -355,6 +376,16 @@ div.contents.row {
           text-decoration: underline;
           color: $white;
         }
+      }
+      a.add_like {
+        color: white;
+        font-size: 15px;
+        text-decoration: none;
+      }
+      a.del_like {
+        color: red;
+        font-size: 15px;
+        text-decoration: none;
       }
       a.address {
         width: 200px;
@@ -370,6 +401,36 @@ div.contents.row {
       span {
         font-size: 9px;
         display: block;
+      }
+    }
+  }
+  .text-area {
+    position: relative;
+    width: 800px;
+    height: 50px;
+    margin: 0 auto;
+    background-color: #333;
+    border-radius: 5px;
+    .text-space {
+      width: 800px;
+      height: 50px;
+      border-radius: 5px;
+      background-color: #333;
+      // font-family: "Osaka";
+      color: white;
+      margin: 0 auto;
+      padding: 2px 10px;
+      font-size: 15px;
+      line-height: 23px;
+      line-break: anywhere;
+      white-space: pre-wrap;
+      overflow: auto;
+      &:hover {
+        position: absolute;
+        z-index: 3;
+        top: 0;
+        left: 0;
+        height: auto;
       }
     }
   }
@@ -411,20 +472,31 @@ form {
     }
   }
 }
-.container {
-  @include boxBase(20px 0 ,30px);
-  box-shadow: 0 0 10px rgba($black,0.2);
-  background-color: $white;
-  box-sizing: border-box;
-}
+
 .comments {
   padding: 5px;
   margin-top: 15px;
+  .comment-space {
+    line-break: anywhere;
+    white-space: pre-line;
+    background-color: #efefef;
+    color: #333;
+    line-height: 20px;
+  }
   a {
-    color: $accent;
+    color: #00ddff;
+    font-size: 25px;
+    line-height: 30px;
     &:hover {
       text-decoration: underline;
     }
+  }
+  span {
+    background-color: #afafaf;
+    padding: 0 2px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
   }
 }
 

@@ -1,5 +1,6 @@
 .contents.row
-  .container
+  .container-new
+    = render "layouts/error_messages", resource: @post
     = form_with(model: @post, local: true) do |form|
       %h3
         投稿する

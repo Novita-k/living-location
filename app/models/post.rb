@@ -8,6 +8,11 @@ class Post < ApplicationRecord
   belongs_to :user
 
   validates :image, presence: true
+  validates :title,
+    length: { maximum:20, message: "入力は20文字までです。"}
+  validates :text,
+    length: { maximum:500, message: "入力は500文字までです。"}
+
   geocoded_by :address
   after_validation :geocode
   reverse_geocoded_by :latitude, :longitude
@@ -17,16 +22,5 @@ class Post < ApplicationRecord
     return Post.all unless search
     Post.where('text LIKE(?)', "%#{search}%")
   end
-
-  def add_like(user)
-    likes.create(user_id: user.id)
-  end
-
-  def del_like(user)
-    likes.find(user_id: user.id).destroy
-  end
-
-  def like?(user)
-    likes.include?(user)
-  end
+  
 end

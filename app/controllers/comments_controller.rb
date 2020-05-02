@@ -1,7 +1,13 @@
 class CommentsController < ApplicationController
   def create
-    Comment.create(comment_params)
-    redirect_to post_path(params[:post_id])
+    @comment = Comment.new(comment_params)
+    # binding.pry
+    if @comment.save
+      redirect_to post_path(params[:post_id])
+    else
+      @post = Post.find(params[:post_id])
+      render template: 'posts/show'
+    end
   end
 
   private
