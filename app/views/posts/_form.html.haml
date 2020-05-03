@@ -1,4 +1,5 @@
 = form.text_field :title, placeholder: "Title"
-= form.file_field :image
+= form.fields_for :images do |img|
+  = img.file_field :image
 = form.text_area :text, placeholder: "text" , rows: "10"
 = form.submit "SEND"

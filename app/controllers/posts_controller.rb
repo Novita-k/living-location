@@ -15,6 +15,7 @@ before_action :move_to_index, except: [:index, :show, :search]
 
   def new
     @post = Post.new
+    @post.images.new
   end
 
   def renew
@@ -81,7 +82,7 @@ before_action :move_to_index, except: [:index, :show, :search]
 
   private
   def post_params
-    params.require(:post).permit(:title, :image, :text,:latitude, :longitude, :address).merge(user_id: current_user.id)
+    params.require(:post).permit(:title, :image, :text,:latitude, :longitude, :address, :date_time, images_attributes: [:image]).merge(user_id: current_user.id)
   end
 
   def set_posts
