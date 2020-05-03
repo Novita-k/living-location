@@ -41,14 +41,16 @@
           handler.fitMapToBounds();
           handler.getMap().setZoom(15);
         });
-      } else {
+      } else if(document.getElementById('map')){
         handler.buildMap({ provider: {}, internal: {id: "map"}}, function(){ //indexのmap
           markers = handler.addMarkers(#{raw @hash.to_json}, {animation: google.maps.Animation.DROP});
           handler.bounds.extendWith(markers);
           handler.fitMapToBounds();
           handler.getMap().setZoom(3);
-          handler.getMap().setCenter({lat: #{@posts[0].latitude}, lng:#{@posts[0].longitude}}); //最新のレコードの位置情報をセット
+          handler.getMap().setCenter({lat: #{@posts[0].latitude}, lng: #{@posts[0].longitude}}); //最新のレコードの位置情報をセット
         });
+      } else {
+        console.log("hoge");
       }
     %footer
       %p

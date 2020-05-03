@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-before_action :set_posts, only: [:index, :create, :show]
+before_action :set_posts, only: [:index,:new, :renew, :create, :update, :show] #gmapscriptのエラー防止の為全てに設置
 before_action :set_post, only: [:edit, :show]
 before_action :move_to_index, except: [:index, :show, :search]
 
@@ -10,7 +10,6 @@ before_action :move_to_index, except: [:index, :show, :search]
       marker.lng place.longitude
       marker.infowindow render_to_string(partial: "posts/infowindow", locals: { place: place })
       marker.json({:id => place.id})
-      # binding.pry
     end
   end
 
@@ -26,7 +25,6 @@ before_action :move_to_index, except: [:index, :show, :search]
     require 'exifr/jpeg'
     @post = Post.new(post_params)
     results = Geocoder.search(@post[:address])
-# binding.pry
     unless @post.image.present?
       flash.now[:alert] = "写真無しの投稿は出来ません"
       render :new and return
@@ -74,7 +72,6 @@ before_action :move_to_index, except: [:index, :show, :search]
       marker.lng place.longitude
       marker.infowindow render_to_string(partial: "posts/infowindow", locals: { place: place })
       marker.json({:id => place.id})
-      # binding.pry
     end
   end
 
