@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_28_123406) do
+ActiveRecord::Schema.define(version: 2020_05_03_141056) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -41,6 +41,16 @@ ActiveRecord::Schema.define(version: 2020_04_28_123406) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "image", null: false
+    t.bigint "post_id", null: false
+    t.bigint "comment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_images_on_comment_id"
+    t.index ["post_id"], name: "index_images_on_post_id"
+  end
+
   create_table "likes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "post_id"
     t.bigint "user_id"
@@ -52,7 +62,6 @@ ActiveRecord::Schema.define(version: 2020_04_28_123406) do
   end
 
   create_table "posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "image", null: false
     t.string "title"
     t.text "text"
     t.bigint "user_id"
@@ -61,6 +70,7 @@ ActiveRecord::Schema.define(version: 2020_04_28_123406) do
     t.string "address"
     t.float "latitude"
     t.float "longitude"
+    t.datetime "date_time"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -80,6 +90,8 @@ ActiveRecord::Schema.define(version: 2020_04_28_123406) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "images", "comments"
+  add_foreign_key "images", "posts"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
 end
