@@ -18,7 +18,7 @@
       = render "likes/like", post: @post
   .text-area
     = tag.div @post.text, class: "text-space"
-  %div#map
+  %div#show-map
   .container
     = render "layouts/error_messages", resource: @comment
     = render partial: 'comments/form'

@@ -1,10 +1,11 @@
 class PostsController < ApplicationController
-before_action :set_posts, only: [:index, :create]
+before_action :set_posts, only: [:index, :create, :show]
 before_action :set_post, only: [:edit, :show]
 before_action :move_to_index, except: [:index, :show, :search]
 
   def index
-    @hash = Gmaps4rails.build_markers(@posts) do |place, marker|
+    @all = Post.includes(:user).order("created_at DESC")
+    @hash = Gmaps4rails.build_markers(@all) do |place, marker|
       marker.lat place.latitude
       marker.lng place.longitude
       marker.infowindow render_to_string(partial: "posts/infowindow", locals: { place: place })

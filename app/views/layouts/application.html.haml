@@ -6,7 +6,6 @@
     %script{async: "", defer: "defer", src: "//maps.googleapis.com/maps/api/js?language=ja&key=#{ENV['GOOGLE_MAP_APIKEY']}"}
     %script{src: "//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"}
     %script{src: "//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js", type: "text/javascript"}
-    -# %link{as: "font", crossorigin: "", href: "assets/fonts/abel-v10-latin-regular.woff2", rel: "preload"}
     
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
@@ -35,12 +34,22 @@
     = yield
     :javascript
       handler = Gmaps.build("Google");
-      handler.buildMap({ provider: {}, internal: {id: "map"}}, function(){
-        markers = handler.addMarkers(#{raw @hash.to_json}, {animation: google.maps.Animation.DROP});
-        handler.bounds.extendWith(markers);
-        handler.fitMapToBounds();
-        handler.getMap().setZoom(3);
+      if(document.getElementById('show-map')){
+        handler.buildMap({ provider: {}, internal: {id: "show-map"}}, function(){ //showのmap
+          markers = handler.addMarkers(#{raw @hash.to_json}, {animation: google.maps.Animation.DROP});
+          handler.bounds.extendWith(markers);
+          handler.fitMapToBounds();
+          handler.getMap().setZoom(15);
         });
+      } else {
+        handler.buildMap({ provider: {}, internal: {id: "map"}}, function(){ //indexのmap
+          markers = handler.addMarkers(#{raw @hash.to_json}, {animation: google.maps.Animation.DROP});
+          handler.bounds.extendWith(markers);
+          handler.fitMapToBounds();
+          handler.getMap().setZoom(3);
+          handler.getMap().setCenter({lat: #{@posts[0].latitude}, lng:#{@posts[0].longitude}}); //最新のレコードの位置情報をセット
+        });
+      }
     %footer
       %p
         Copyright livinglocation 2020.
