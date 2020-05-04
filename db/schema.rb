@@ -43,12 +43,10 @@ ActiveRecord::Schema.define(version: 2020_05_03_141056) do
 
   create_table "images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "image", null: false
-    t.bigint "post_id", null: false
-    t.bigint "comment_id", null: false
+    t.integer "post_id"
+    t.integer "comment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["comment_id"], name: "index_images_on_comment_id"
-    t.index ["post_id"], name: "index_images_on_post_id"
   end
 
   create_table "likes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -90,8 +88,6 @@ ActiveRecord::Schema.define(version: 2020_05_03_141056) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "images", "comments"
-  add_foreign_key "images", "posts"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
 end

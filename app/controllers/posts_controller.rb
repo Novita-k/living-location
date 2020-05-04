@@ -11,6 +11,7 @@ before_action :move_to_index, except: [:index, :show, :search]
       marker.infowindow render_to_string(partial: "posts/infowindow", locals: { place: place })
       marker.json({:id => place.id})
     end
+    # binding.pry
   end
 
   def new
@@ -20,20 +21,23 @@ before_action :move_to_index, except: [:index, :show, :search]
 
   def renew
     @post = Post.new
+    @post.images.new
   end
 
   def create
     require 'exifr/jpeg'
     @post = Post.new(post_params)
-    results = Geocoder.search(@post[:address])
-    unless @post.image.present?
+    results = Geocoder.search(@post[:address]) #逆geocoder可能なaddressが入力されているか保存前にresultsを作ってチェック。
+    unless @post.images[0].present?
       flash.now[:alert] = "写真無しの投稿は出来ません"
+      @post.images.new
       render :new and return
     else
-      if @post.image.filename.downcase.end_with?(".jpeg", ".jpg") && EXIFR::JPEG.new(@post.image.file.file).gps.present?
-        @post.latitude = EXIFR::JPEG::new(@post.image.file.file).gps.latitude
-        @post.longitude = EXIFR::JPEG::new(@post.image.file.file).gps.longitude
-      elsif @post.address.present? && results.first.present?
+      if @post.images[0].image.filename.downcase.end_with?(".jpeg", ".jpg") && EXIFR::JPEG.new(@post.images[0].image.file.file).gps.present? #画像ファイルがjpg/jpegファイルかつ、gps情報が存在するかチェック。
+        @post.latitude = EXIFR::JPEG::new(@post.images[0].image.file.file).gps.latitude
+        @post.longitude = EXIFR::JPEG::new(@post.images[0].image.file.file).gps.longitude
+      elsif @post.address.present? && results.first.present? #addressが入力されているか、入力された物でgps情報を取得できるかチェック。
+        # binding.pry
         @post.save
         redirect_to root_path and return
       else
@@ -65,6 +69,7 @@ before_action :move_to_index, except: [:index, :show, :search]
 
   def show
     @comment = Comment.new
+    @comment.images.new
     @comments = @post.comments.includes(:user)
     @like = Like.new
 
@@ -82,11 +87,11 @@ before_action :move_to_index, except: [:index, :show, :search]
 
   private
   def post_params
-    params.require(:post).permit(:title, :image, :text,:latitude, :longitude, :address, :date_time, images_attributes: [:image]).merge(user_id: current_user.id)
+    params.require(:post).permit(:title, :text,:latitude, :longitude, :address, :date_time, images_attributes: [:image]).merge(user_id: current_user.id)
   end
 
   def set_posts
-    @posts = Post.includes(:user).order("created_at DESC").page(params[:page]).per(5)
+    @posts = Post.includes(:user, :images).order("created_at DESC").page(params[:page]).per(5)
   end
 
   def set_post
