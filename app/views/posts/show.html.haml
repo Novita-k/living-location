@@ -16,6 +16,9 @@
         %span 投稿者
         = @post.user.nickname
       = render "likes/like", post: @post
+    .date_time
+      %span
+        = @post.date_time
   .text-area
     = tag.div @post.text, class: "text-space"
   %div#show-map

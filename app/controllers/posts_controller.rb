@@ -11,7 +11,6 @@ before_action :move_to_index, except: [:index, :show, :search]
       marker.infowindow render_to_string(partial: "posts/infowindow", locals: { place: place })
       marker.json({:id => place.id})
     end
-    # binding.pry
   end
 
   def new
@@ -27,6 +26,7 @@ before_action :move_to_index, except: [:index, :show, :search]
   def create
     require 'exifr/jpeg'
     @post = Post.new(post_params)
+    @post.date_time = EXIFR::JPEG::new(@post.images[0].image.file.file).date_time
     results = Geocoder.search(@post[:address]) #逆geocoder可能なaddressが入力されているか保存前にresultsを作ってチェック。
     unless @post.images[0].present?
       flash.now[:alert] = "写真無しの投稿は出来ません"
@@ -37,7 +37,6 @@ before_action :move_to_index, except: [:index, :show, :search]
         @post.latitude = EXIFR::JPEG::new(@post.images[0].image.file.file).gps.latitude
         @post.longitude = EXIFR::JPEG::new(@post.images[0].image.file.file).gps.longitude
       elsif @post.address.present? && results.first.present? #addressが入力されているか、入力された物でgps情報を取得できるかチェック。
-        # binding.pry
         @post.save
         redirect_to root_path and return
       else
@@ -45,6 +44,7 @@ before_action :move_to_index, except: [:index, :show, :search]
         render "renew" and return
       end
     end
+    # binding.pry
     if @post.save
     redirect_to root_path
     else
@@ -79,6 +79,7 @@ before_action :move_to_index, except: [:index, :show, :search]
       marker.infowindow render_to_string(partial: "posts/infowindow", locals: { place: place })
       marker.json({:id => place.id})
     end
+    # binding.pry
   end
 
   def search
@@ -91,7 +92,7 @@ before_action :move_to_index, except: [:index, :show, :search]
   end
 
   def set_posts
-    @posts = Post.includes(:user, :images).order("created_at DESC").page(params[:page]).per(5)
+    @posts = Post.includes(:user).order("created_at DESC").page(params[:page]).per(5)
   end
 
   def set_post
