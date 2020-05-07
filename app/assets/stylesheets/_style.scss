@@ -213,6 +213,7 @@ header.header {
     }
     ul {
       display: none;
+      width: 150px;
       position: absolute;
       top: 46px;
       right: 0;
@@ -327,7 +328,7 @@ div.contents.row {
       cursor: pointer;
       top: 10px;
       right: 15px;
-      z-index: 2;
+      z-index: 3;
       height: 50px;
       width: 50px;
       text-align: right;
@@ -335,7 +336,7 @@ div.contents.row {
         display: block;
       }
       ul.more_list {
-        z-index: 5;
+        z-index: 3;
         position: absolute;
         text-align: left;
         width: 80px;
@@ -347,6 +348,7 @@ div.contents.row {
         box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         border-radius: 3px;
         li {
+          z-index: 3;
           border-bottom: 1px solid #ddd;
           &:last-child {
             border-bottom: 0;
