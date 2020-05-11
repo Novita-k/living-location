@@ -6,7 +6,7 @@
     %script{async: "", defer: "defer", src: "//maps.googleapis.com/maps/api/js?language=ja&key=#{ENV['GOOGLE_MAP_APIKEY']}"}
     %script{src: "//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"}
     %script{src: "//cdn.rawgit.com/printercu/google-maps-utility-library-v3-read-only/master/infobox/src/infobox_packed.js", type: "text/javascript"}
-    
+
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     = csrf_meta_tags
@@ -48,7 +48,7 @@
           handler.bounds.extendWith(markers);
           handler.fitMapToBounds();
           handler.getMap().setZoom(3);
-          handler.getMap().setCenter({lat: #{raw @hash.first.values.first.to_json}, lng: #{raw @hash.first.values.second.to_json}}); //最新のレコードの位置情報をセット
+
         });
       } else {
         console.log("hoge");
@@ -56,3 +56,4 @@
     %footer
       %p
         Copyright livinglocation 2020.
+-# handler.getMap().setCenter({lat: #{raw @hash.first.values.first.to_json}, lng: #{raw @hash.first.values.second.to_json}}); //最新のレコードの位置情報をセット

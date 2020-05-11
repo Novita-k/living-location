@@ -1,6 +1,7 @@
 .contents.row
   %div{id: "post-#{@post.id}", class: "content_post"}
-    = image_tag @post.images[0].image.url, class: "post-image"
+    = link_to @post.images[0].image.url, 'data-lightbox' => @post.images[0].image do
+      = image_tag @post.images[0].image.url, class: "post-image"
     - if user_signed_in? && current_user.id == @post.user_id
       %span.title
         = @post.title
