@@ -19,7 +19,7 @@ class Post < ApplicationRecord
 
   def self.search(search)
     return Post.all unless search
-    Post.where('text LIKE(?)', "%#{search}%")
+    Post.joins(:user).where('text LIKE(?) OR title LIKE(?) OR address LIKE(?) OR nickname LIKE(?)', "%#{search}%","%#{search}%","%#{search}%","%#{search}%",)
   end
   
 end

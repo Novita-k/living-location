@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-before_action :set_posts, only: [:index,:new, :renew, :create, :update, :show] #gmapscriptのエラー防止の為全てに設置
+before_action :set_posts, only: [:index]
 before_action :set_post, only: [:edit, :show]
 before_action :move_to_index, except: [:index, :show, :search]
 
@@ -83,7 +83,12 @@ before_action :move_to_index, except: [:index, :show, :search]
   end
 
   def search
-    @posts = Post.search(params[:keyword])
+    @posts = Post.search(params[:keyword]).order("created_at DESC").page(params[:page]).per(5)
+    respond_to do |format|
+      format.html
+      format.json
+      # binding.pry
+    end
   end
 
   private

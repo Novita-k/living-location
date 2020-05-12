@@ -14,7 +14,7 @@
         %li
           = link_to '削除', "/posts/#{post.id}", method: :delete
   %span.name
-    %a{:href => "/users/#{post.user.id}"}
+    %a{:href => "/users/#{post.user_id}"}
       %span 投稿者
       = post.user.nickname
     %a.address{:href => "#"}
