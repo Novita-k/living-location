@@ -101,7 +101,7 @@ ja:
         we_need_your_current_password_to_confirm_your_changes: 変更を反映するには現在のパスワードを入力してください
       new:
         sign_up: アカウント登録
-      signed_up: 人間を偉大にしたり、卑小にしたりするのは、その人の志のいかんにある。アカウント登録が完了しました。
+      signed_up: アカウント登録が完了しました。
       signed_up_but_inactive: ログインするためには、アカウントを有効化してください。
       signed_up_but_locked: アカウントが凍結されているためログインできません。
       signed_up_but_unconfirmed: 本人確認用のメールを送信しました。メール内のリンクからアカウントを有効化させてください。
@@ -112,8 +112,8 @@ ja:
       already_signed_out: 既にログアウト済みです。
       new:
         sign_in: ログイン
-      signed_in: 求めよ、そうすれば、与えられるであろう。捜せ、そうすれば、見いだすであろう。 門をたたけ、そうすれば、あけてもらえるであろう。ログインしました。
-      signed_out: 過ちを犯すことは恥ずべきことではない。むしろその過ちがわかった後も、 その過ちを改めようとしないで、繰り返すのは恥ずかしいことだ。ログアウトしました。
+      signed_in: ログインしました。
+      signed_out: ログアウトしました。
     shared:
       links:
         back: 戻る

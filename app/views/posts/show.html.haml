@@ -1,6 +1,7 @@
 .contents.row
-  .content_post
-    = image_tag @post.image.url, class: "post-image"
+  %div{id: "post-#{@post.id}", class: "content_post"}
+    = link_to @post.images[0].image.url, 'data-lightbox' => @post.images[0].image do
+      = image_tag @post.images[0].image.url, class: "post-image"
     - if user_signed_in? && current_user.id == @post.user_id
       %span.title
         = @post.title
@@ -11,30 +12,20 @@
             = link_to '編集', "/posts/#{@post.id}/edit", method: :get
           %li
             = link_to '削除', "/posts/#{@post.id}", method: :delete
-    = simple_format(@post.text)
     %span.name
-      %a{:href => "/users/#{@post.user.id}"}
+      %a{:href => "/users/#{@post.user_id}"}
         %span 投稿者
         = @post.user.nickname
-  %div#map
+      = render "likes/like", post: @post
+    .date_time
+      %span
+        = @post.date_time
+  .text-area
+    = tag.div @post.text, class: "text-space"
+  %div#show-map
   .container
-    - if current_user
-      = form_with(model: [@post, @comment], local: true) do |form|
-        = form.text_area :text, placeholder: "コメントする", rows: "2"
-        = form.submit "SEND"
-    - else
-      %strong
-        %p ※※※ コメントの投稿には新規登録/ログインが必要です ※※※
-    .comments
-      %h4 ＜コメント一覧＞
-      - if @comments
-        - @comments.each do |comment|
-          %p
-            %strong
-              = link_to comment.user.nickname, "/users/#{comment.user_id}"
-            = comment.text
-
-:javascript
+    = render "layouts/error_messages", resource: @comment
+    = render partial: 'comments/form'
 
 
 -# :javascript

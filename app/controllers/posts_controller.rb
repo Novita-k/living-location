@@ -1,39 +1,42 @@
 class PostsController < ApplicationController
-before_action :set_posts, only: [:index, :create]
+before_action :set_posts, only: [:index]
 before_action :set_post, only: [:edit, :show]
 before_action :move_to_index, except: [:index, :show, :search]
 
   def index
-    @hash = Gmaps4rails.build_markers(@posts) do |place, marker|
+    @all = Post.includes(:user).order("created_at DESC")
+    @hash = Gmaps4rails.build_markers(@all) do |place, marker|
       marker.lat place.latitude
       marker.lng place.longitude
       marker.infowindow render_to_string(partial: "posts/infowindow", locals: { place: place })
       marker.json({:id => place.id})
-      # binding.pry
     end
   end
 
   def new
     @post = Post.new
+    @post.images.new
   end
 
   def renew
     @post = Post.new
+    @post.images.new
   end
 
   def create
     require 'exifr/jpeg'
     @post = Post.new(post_params)
-    results = Geocoder.search(@post[:address])
-
-    unless @post.image.present?
+    @post.date_time = EXIFR::JPEG::new(@post.images[0].image.file.file).date_time
+    results = Geocoder.search(@post[:address]) #逆geocoder可能なaddressが入力されているか保存前にresultsを作ってチェック。
+    unless @post.images[0].present?
       flash.now[:alert] = "写真無しの投稿は出来ません"
+      @post.images.new
       render :new and return
     else
-      if @post.image.filename.downcase.end_with?(".jpeg", ".jpg") && EXIFR::JPEG.new(@post.image.file.file).gps.present?
-        @post.latitude = EXIFR::JPEG::new(@post.image.file.file).gps.latitude
-        @post.longitude = EXIFR::JPEG::new(@post.image.file.file).gps.longitude
-      elsif @post.address.present? && results.first.present?
+      if @post.images[0].image.filename.downcase.end_with?(".jpeg", ".jpg") && EXIFR::JPEG.new(@post.images[0].image.file.file).gps.present? #画像ファイルがjpg/jpegファイルかつ、gps情報が存在するかチェック。
+        @post.latitude = EXIFR::JPEG::new(@post.images[0].image.file.file).gps.latitude
+        @post.longitude = EXIFR::JPEG::new(@post.images[0].image.file.file).gps.longitude
+      elsif @post.address.present? && results.first.present? #addressが入力されているか、入力された物でgps情報を取得できるかチェック。
         @post.save
         redirect_to root_path and return
       else
@@ -41,12 +44,12 @@ before_action :move_to_index, except: [:index, :show, :search]
         render "renew" and return
       end
     end
+    # binding.pry
     if @post.save
     redirect_to root_path
     else
       @posts = Post.includes(:user).order("created_at DESC").page(params[:page]).per(5)
-      flash.now[:alert] = '投稿に失敗しました。'
-      render :index
+      render :new
     end
   end
 
@@ -66,24 +69,31 @@ before_action :move_to_index, except: [:index, :show, :search]
 
   def show
     @comment = Comment.new
+    @comment.images.new
     @comments = @post.comments.includes(:user)
+    @like = Like.new
 
     @hash = Gmaps4rails.build_markers(@post) do |place, marker|
       marker.lat place.latitude
       marker.lng place.longitude
       marker.infowindow render_to_string(partial: "posts/infowindow", locals: { place: place })
       marker.json({:id => place.id})
+    end
+    # binding.pry
+  end
+
+  def search
+    @posts = Post.search(params[:keyword]).order("created_at DESC").page(params[:page]).per(5)
+    respond_to do |format|
+      format.html
+      format.json
       # binding.pry
     end
   end
 
-  def search
-    @posts = Post.search(params[:keyword])
-  end
-
   private
   def post_params
-    params.require(:post).permit(:title, :image, :text,:latitude, :longitude, :address).merge(user_id: current_user.id)
+    params.require(:post).permit(:title, :text,:latitude, :longitude, :address, :date_time, images_attributes: [:image]).merge(user_id: current_user.id)
   end
 
   def set_posts

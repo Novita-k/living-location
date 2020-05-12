@@ -12,8 +12,8 @@
 //
 //= require underscore
 //= require gmaps/google
+//= require jquery
 //= require rails-ujs
 //= require turbolinks
+//= require lightbox
 //= require_tree .
-//= require jquery
-//= require jquery_ujs

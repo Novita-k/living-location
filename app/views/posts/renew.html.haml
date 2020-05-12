@@ -1,11 +1,7 @@
 .contents.row
-  .container
+  .container-new
+    = render "layouts/error_messages", resource: @post
     = form_with(model: @post, local: true) do |form|
       %h3
         投稿する
-      = form.text_field :title, placeholder: "Title"
-      = form.file_field :image
-      = form.text_field :address, placeholder: "住所"
-      = form.text_area :text, placeholder: "text" , rows: "10"
-      = form.submit "SEND"
-
+      = render partial: 'reform', locals: { form: form }

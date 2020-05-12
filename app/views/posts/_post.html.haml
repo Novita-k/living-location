@@ -1,5 +1,6 @@
 .content_post
-  = image_tag post.image.url, class: "post-image"
+  = link_to post.images[0].image.url, 'data-lightbox' => post.images[0].image do
+    = image_tag post.images[0].image.url, class: "post-image"
   %span.title
     = post.title
   .more
@@ -12,10 +13,11 @@
           = link_to '編集', "/posts/#{post.id}/edit", method: :get
         %li
           = link_to '削除', "/posts/#{post.id}", method: :delete
-  = simple_format(post.text)
   %span.name
-    %a{:href => "/users/#{post.user.id}"}
+    %a{:href => "/users/#{post.user_id}"}
       %span 投稿者
       = post.user.nickname
     %a.address{:href => "#"}
       = post.address
+.text-area
+  = tag.div post.text, class: "text-space"
