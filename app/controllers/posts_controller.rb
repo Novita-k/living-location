@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
 before_action :set_posts, only: [:index]
 before_action :set_post, only: [:edit, :show]
-before_action :move_to_index, except: [:index, :show, :search]
+# before_action :move_to_index, except: [:index, :show, :search]
 
   def index
     @all = Post.includes(:user).order("created_at DESC")
@@ -18,7 +18,7 @@ before_action :move_to_index, except: [:index, :show, :search]
     @post.images.new
   end
 
-  def renew
+  def renew #写真に位置情報がなかった場合addressを入力してもらうページ。
     @post = Post.new
     @post.images.new
   end
@@ -26,14 +26,14 @@ before_action :move_to_index, except: [:index, :show, :search]
   def create
     require 'exifr/jpeg'
     @post = Post.new(post_params)
-    @post.date_time = EXIFR::JPEG::new(@post.images[0].image.file.file).date_time
     results = Geocoder.search(@post[:address]) #逆geocoder可能なaddressが入力されているか保存前にresultsを作ってチェック。
     unless @post.images[0].present?
       flash.now[:alert] = "写真無しの投稿は出来ません"
       @post.images.new
       render :new and return
-    else
-      if @post.images[0].image.filename.downcase.end_with?(".jpeg", ".jpg") && EXIFR::JPEG.new(@post.images[0].image.file.file).gps.present? #画像ファイルがjpg/jpegファイルかつ、gps情報が存在するかチェック。
+    else #画像ファイルがjpg/jpegファイルかつ、gps情報が存在するかチェック。
+      if @post.images[0].image.filename.downcase.end_with?(".jpeg", ".jpg") && EXIFR::JPEG.new(@post.images[0].image.file.file).gps.present?
+        #位置情報のインスタンスを作成。
         @post.latitude = EXIFR::JPEG::new(@post.images[0].image.file.file).gps.latitude
         @post.longitude = EXIFR::JPEG::new(@post.images[0].image.file.file).gps.longitude
       elsif @post.address.present? && results.first.present? #addressが入力されているか、入力された物でgps情報を取得できるかチェック。
@@ -44,8 +44,9 @@ before_action :move_to_index, except: [:index, :show, :search]
         render "renew" and return
       end
     end
-    # binding.pry
-    if @post.save
+    @post.date_time = EXIFR::JPEG::new(@post.images[0].image.file.file).date_time #date_timeのインスタンスを作成。
+    if @post.valid?
+    @post.save
     redirect_to root_path
     else
       @posts = Post.includes(:user).order("created_at DESC").page(params[:page]).per(5)

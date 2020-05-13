@@ -8,6 +8,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: [:google_oauth2]
 
+  validates :nickname, presence: true, length: {maximum: 12}
+
   def like?(post)
     self.likes.exists?(post_id: post.id)
   end
