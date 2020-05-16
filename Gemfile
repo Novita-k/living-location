@@ -81,3 +81,4 @@ gem 'omniauth-google-oauth2'
 gem "omniauth-rails_csrf_protection"
 gem "jquery-rails"
 gem 'lightbox2-rails'
+gem 'fog-aws'
