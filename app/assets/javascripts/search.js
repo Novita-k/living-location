@@ -1,5 +1,5 @@
 $(function() {
-  let search_list = $(".contents.row");
+  var search_list = $(".contents.row");
   function appendPost(post) {
     if (post.user_sign_in && post.user_sign_in.id == post.user_id) {
       var post_user = `<li>
