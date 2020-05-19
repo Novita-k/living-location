@@ -1,6 +1,11 @@
 .contents.row
   .container
+    = render "layouts/error_messages", resource: @post
     = form_with(model: @post, local: true) do |form|
       %h3
         編集する
-      = render partial: "form", locals: { form: form }
+      = form.text_field :title, placeholder: "Title"
+      = form.fields_for :images do |img|
+        = img.file_field :image
+      = form.text_area :text, placeholder: "text" , rows: "10"
+      = form.submit "SEND"

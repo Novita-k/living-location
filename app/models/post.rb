@@ -21,5 +21,4 @@ class Post < ApplicationRecord
     return Post.all unless search
     Post.joins(:user).where('text LIKE(?) OR title LIKE(?) OR address LIKE(?) OR nickname LIKE(?)', "%#{search}%","%#{search}%","%#{search}%","%#{search}%",)
   end
-  
 end
