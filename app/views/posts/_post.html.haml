@@ -17,7 +17,7 @@
     %a{:href => "/users/#{post.user_id}"}
       %span 投稿者
       = post.user.nickname
-    %a.address{:href => "#"}
+    %a.address{:href => "/posts/#{post.id}", method: :get}
       = post.address
 .text-area
   = tag.div post.text, class: "text-space"

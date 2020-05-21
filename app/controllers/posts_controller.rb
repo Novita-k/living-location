@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
 before_action :set_posts, only: [:index]
-before_action :set_post, only: [:edit, :show]
+before_action :set_post, only: [:edit, :show, :update]
 before_action :move_to_index, except: [:index, :show, :search]
 
   def index
@@ -26,30 +26,27 @@ before_action :move_to_index, except: [:index, :show, :search]
   def create
     require 'exifr/jpeg'
     @post = Post.new(post_params)
-    hash = EXIFR::JPEG::new(params[:post][:images_attributes]["0"]["image"].tempfile) #paramsからimageのメタタグ情報を取得。
-    @post.date_time = hash.date_time #date_timeのインスタンスを作成。
     results = Geocoder.search(@post[:address]) #逆geocoder可能なaddressが入力されているか保存前にresultsを作ってチェック。
-    unless @post.images[0].present?
+
+    if @post.images[0].nil?
       flash.now[:alert] = "写真無しの投稿は出来ません"
       @post.images.new
       render :new and return
-    else #画像ファイルがjpg/jpegファイルかつ、gps情報が存在するかチェック。
-      # binding.pry
-      if @post.images[0].image.filename.downcase.end_with?(".jpeg", ".jpg") && hash.gps.present?
-        #位置情報のインスタンスを作成。
-        @post.latitude = hash.gps.latitude
-        @post.longitude = hash.gps.longitude
-      elsif @post.address.present? && results.first.present? #addressが入力されているか、入力された物でgps情報を取得できるかチェック。
-        @post.save
-        redirect_to root_path and return
-      else
-        flash.now[:alert] = "画像に位置情報が有りません。実在する地名を住所欄に追加して下さい"
-        render "renew" and return
-      end
     end
+
+    hash = EXIFR::JPEG::new(params[:post][:images_attributes]["0"]["image"].tempfile) #paramsからimageのメタタグ情報を取得。
+    if @post.images[0].image.path.downcase.end_with?(".jpeg", ".jpg") && hash.gps.present? #画像ファイルがjpg/jpegファイルかつ、gps情報が存在するかチェック。
+      @post.latitude = hash.gps.latitude
+      @post.longitude = hash.gps.longitude
+    elsif @post.address.nil? && results.first.nil? #addressが入力されているか、入力された物でgps情報を取得できるかチェック。
+      flash.now[:alert] = "画像に位置情報が有りません。実在する地名を住所欄に追加して下さい"
+      render "renew" and return
+    end
+
+    @post.date_time = hash.date_time #date_timeのインスタンスを作成。
     if @post.valid?
-    @post.save
-    redirect_to root_path
+      @post.save
+      redirect_to root_path
     else
       @posts = Post.includes(:user).order("created_at DESC").page(params[:page]).per(5)
       render :new
@@ -66,8 +63,38 @@ before_action :move_to_index, except: [:index, :show, :search]
   end
 
   def update
-    post = Post.find(params[:id])
-    post.update(post_params)
+    if params[:post][:images_attributes]["0"]["image"].nil? #画像の更新がなかった場合
+      unless @post.valid?
+        render :edit and return
+      end
+      if @post.update(post_params)
+        redirect_to root_path and return
+      else
+        render :edit and return
+      end
+    else
+      results = Geocoder.search(params[:post][:address])
+      hash = EXIFR::JPEG::new(params[:post][:images_attributes]["0"]["image"].tempfile) #paramsからimageのメタタグ情報を取得。
+      if @post.images[0].image.path.downcase.end_with?(".jpeg", ".jpg") && hash.gps.present? #画像ファイルがjpg/jpegファイルかつ、gps情報が存在するかチェック。
+        @post.latitude = hash.gps.latitude
+        @post.longitude = hash.gps.longitude
+        @post.address = "" #lat, lng, address揃えて更新しないとgeocoderが既存のレコードから復元して上書きしてしまうので一旦空にして新しく生成してもらう。
+      elsif params[:post][:address].present? && results.first.present? #addressが入力されているか、入力された物でgps情報を取得できるかチェック。
+        # binding.pry
+        @post.latitude = ""
+        @post.longitude = ""
+      else
+        flash.now[:alert] = "画像に位置情報が有りません。実在する地名を住所欄に追加して下さい"
+        render "renew" and return
+      end
+    end
+    @post.date_time = hash.date_time #date_timeのインスタンスを作成。
+    if @post.valid?
+      @post.update(post_params)
+      redirect_to root_path
+    else
+      render :edit
+    end
   end
 
   def show
@@ -94,7 +121,7 @@ before_action :move_to_index, except: [:index, :show, :search]
 
   private
   def post_params
-    params.require(:post).permit(:title, :text,:latitude, :longitude, :address, :date_time, images_attributes: [:image]).merge(user_id: current_user.id)
+    params.require(:post).permit(:title, :text,:latitude, :longitude, :address, :date_time, images_attributes: [:image, :_destroy, :id]).merge(user_id: current_user.id)
   end
 
   def set_posts
