@@ -17,4 +17,4 @@ indexに投稿画像が一覧表示されます。５件づつ新規順に表示
 
 ## DEMO
 
-![Image](/assets/images/testtest.gif)
+![Image](/app/assets/images/testtest.gif)
