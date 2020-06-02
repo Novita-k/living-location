@@ -4,11 +4,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.5.1'
 gem 'pg'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.3'
+gem 'rails', '5.2.4.3'
 # Use mysql as the database for Active Record
 # gem 'mysql2', '0.5.3'
 # Use Puma as the app server
-gem 'puma', '~> 3.12'
+gem 'puma', '>= 3.12.6'
 # Use SCSS for stylesheets
 gem 'sass-rails', '5.0.7'
 # Use Uglifier as compressor for JavaScript assets
@@ -65,7 +65,7 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'devise'
-gem 'kaminari'
+gem 'kaminari', '1.2.1'
 gem 'mini_magick'
 gem 'pry-rails'
 gem 'compass-rails', '3.1.0'
@@ -82,3 +82,4 @@ gem "omniauth-rails_csrf_protection"
 gem "jquery-rails"
 gem 'lightbox2-rails'
 gem 'fog-aws'
+gem "activesupport", ">= 5.2.4.3"
