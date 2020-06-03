@@ -525,3 +525,9 @@ footer {
     width: 10%;
   }
 }
+
+@media (max-width: 768px) {
+  body {
+    width: 800px;
+  }
+}
