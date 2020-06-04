@@ -22,7 +22,8 @@
   src: local('Abel Regular'), local('Abel-Regular'),
        url('abel-v10-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
 }
-
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Averia+Sans+Libre:wght@700&family=Caveat+Brush&display=swap');
 @import url(https://fonts.googleapis.com/css?family=Unica+One);
 
 $accent: #57C3E9;
@@ -53,7 +54,10 @@ $white: white;
 
 body,html {
   height: 100%;
-  background-color: $lightGray;
+  width: 100%;
+  // background: #fff;
+  background-image: url("DSC_2157.JPG"); 
+  background-repeat:  no-repeat;
 }
 
 body {
@@ -158,7 +162,7 @@ h1,h2,h3,h4,h5,h6 {
 header.header {
   @include basePadding;
   border-bottom: 1px solid $gray;
-  background-color: #fff;
+  background: white;
   position: fixed;
   top: 0;
   left: 0;
@@ -167,9 +171,10 @@ header.header {
   div.header__bar.row {
     position: relative;
     h1.grid-6 {
-      font-size: 30px;
-      font-weight: bold;
-      line-height: 41px;
+      font-family: 'Caveat Brush','Kalam',cursive;
+      font-size: 50px;
+      font-weight: 900;
+      line-height: 50px;
       float: left;
       margin-left: 30px;
       a {
@@ -191,7 +196,7 @@ header.header {
     margin: 0 0 0 30px;
     padding: 0px 20px 0 20px;
     line-height: 1.1em;
-    background: white;
+    // background: white;
     @extend .btn;
     p {
       padding-top: 5px;
