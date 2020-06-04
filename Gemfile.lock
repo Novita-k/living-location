@@ -359,6 +359,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport (>= 5.2.4.3)
   bootsnap (>= 1.1.0)
   byebug
   capybara (>= 2.15)
@@ -387,7 +388,7 @@ DEPENDENCIES
   pg
   pry-rails
   puma (>= 3.12.6)
-  rails (~> 5.2.4.3)
+  rails (= 5.2.4.3)
   rails-controller-testing
   rspec-rails
   sass-rails (= 5.0.7)

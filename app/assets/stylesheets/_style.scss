@@ -22,7 +22,8 @@
   src: local('Abel Regular'), local('Abel-Regular'),
        url('abel-v10-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
 }
-
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Averia+Sans+Libre:wght@700&family=Caveat+Brush&display=swap');
 @import url(https://fonts.googleapis.com/css?family=Unica+One);
 
 $accent: #57C3E9;
@@ -53,11 +54,14 @@ $white: white;
 
 body,html {
   height: 100%;
-  background-color: $lightGray;
+  width: 100%;
+  // background: #fff;
+  background-image: url("DSC_2157.JPG"); 
+  background-repeat:  no-repeat;
 }
 
 body {
-  padding-top: 60px;
+  padding-top: 76px;
 }
 
 #error_message {
@@ -158,19 +162,19 @@ h1,h2,h3,h4,h5,h6 {
 header.header {
   @include basePadding;
   border-bottom: 1px solid $gray;
-  background-color: #fff;
+  background: white;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 5;
-  height: 62px;
   div.header__bar.row {
     position: relative;
     h1.grid-6 {
-      font-size: 30px;
-      font-weight: bold;
-      line-height: 41px;
+      font-family: 'Caveat Brush','Kalam',cursive;
+      font-size: 50px;
+      font-weight: 900;
+      line-height: 50px;
       float: left;
       margin-left: 30px;
       a {
@@ -179,26 +183,29 @@ header.header {
     }
     div.grid-6 {
       float: right;
-      text-align: right;
+      display: flex;
       a.post {
         @extend .btn;
-        width: 120px;
-        display: inline-left;
+        font-size: 20px;
+        padding: 10px 20px;
         margin-left: 10px;
       }
     }
   }
-  .user_nav {
-    position: relative;
-    height: 100px;
-    right: 0;
+  .user_nav .user-menu {
+    margin: 0 0 0 30px;
+    padding: 0px 20px 0 20px;
+    line-height: 1.1em;
+    // background: white;
+    @extend .btn;
+    p {
+      padding-top: 5px;
+    }
     span {
-      top: 5px;
       display: block;
-      float: left;
-      margin-left: 30px;
-      height: 50px;
       font-size: 1em;
+      line-height: 1.5em;
+      padding: 4px 0 7px 0;
       cursor: pointer;
       position: relative;
       &:after {
@@ -215,7 +222,7 @@ header.header {
       display: none;
       width: 150px;
       position: absolute;
-      top: 46px;
+      top: 30px;
       right: 0;
       border-left: 1px solid #d8d8d8;
       border-right: 1px solid #d8d8d8;
@@ -225,7 +232,7 @@ header.header {
         a {
           display: block;
           padding: 10px 20px;
-          text-align: left;
+          text-align: center;
           border-bottom: 1px solid #d8d8d8;
         }
       }
@@ -512,16 +519,46 @@ footer {
 
 .search-form {
   text-align: center;
-  padding-top: 32px;
+  padding-top: 20px;
   .search-input {
     width: 30%;
     margin-right: 10px;
   }
   .search-index-input {
     width: 30%;
-    margin-right: 10px;
+    margin: 0 10px;
   }
   .search-btn {
     width: 10%;
   }
+}
+
+@media (max-width: 768px) {
+  body {
+    width: 800px;
+  }
+  .search-form {
+    text-align: left;
+    padding-top: 10px;
+  }
+  header.header div.header__bar.row div.grid-6 {
+    position: absolute;
+    top: 65px;
+    right: 10px;
+    a.post {
+      background: #fff;
+      font-size: 18px;
+      width: 140px;
+    }
+  }
+  header.header .user_nav .user-menu span {
+    
+  }
+  // .header__bar.row {
+  //   display: flex;
+  //   text-align: center;
+  // }
+  // .grid-6 {
+  //   display: block;
+  // }
 }
