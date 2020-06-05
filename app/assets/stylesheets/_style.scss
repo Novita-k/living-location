@@ -541,24 +541,42 @@ footer {
     text-align: left;
     padding-top: 10px;
   }
-  header.header div.header__bar.row div.grid-6 {
-    position: absolute;
-    top: 65px;
-    right: 10px;
-    a.post {
-      background: #fff;
-      font-size: 18px;
-      width: 140px;
+  header.header div.header__bar.row {
+    display: flex;
+    align-items: center;
+    h1 {
+      font-size: 40px;
+      margin: 0 30px;
+    }
+    h3.sub-title {
+      color: $accent;
+      font-size: 20px;
+    }
+    div.grid-6 {
+      position: absolute;
+      top: 72px;
+      right: 7px;
+      a.post {
+        background: #fff;
+        font-size: 25px;
+        width: 140px;
+        display: flex;
+        align-items: center;
+        padding: 0 13px;
+      }
+      .user-menu {
+        background: white;
+        padding: 0 10px;
+        text-align: center;
+        p {
+          font-size: 20px;
+          line-height: 1em;
+          font-weight: bold;
+        }
+        span {
+          font-size: 16px;
+        }
+      }
     }
   }
-  header.header .user_nav .user-menu span {
-    
-  }
-  // .header__bar.row {
-  //   display: flex;
-  //   text-align: center;
-  // }
-  // .grid-6 {
-  //   display: block;
-  // }
 }
