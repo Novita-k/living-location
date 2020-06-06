@@ -83,3 +83,4 @@ gem "jquery-rails"
 gem 'lightbox2-rails'
 gem 'fog-aws'
 gem "activesupport", ">= 5.2.4.3"
+gem "websocket-extensions", ">= 0.1.5"
