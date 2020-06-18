@@ -52,39 +52,10 @@ $white: white;
   height: $height;
 }
 
-body,html {
-  height: 100%;
-  width: 100%;
-  // background: #fff;
-  background-image: url("DSC_2157.JPG"); 
-  background-repeat:  no-repeat;
-}
-
-body {
-  padding-top: 76px;
-}
-
-#error_message {
-  font-family: "HIragino Kaku Gothic Pro", Osaka, Meiryo, "メイリオ", "ＭＳ Ｐゴシック", "MS P Gothic", sans-serif;
-  border: 2px solid #00ffff;
-  border-radius: 10px;
-  padding: 10px 20px;
-  text-align: center;
-  line-height: 20px;
-  color: #ff5500;
-  h2 {
-    color: #ff5500;
-    margin: 0;
-  }
-}
-
-#map {
-  @include map;
-}
-
-#show-map {
-  @include map;
-  margin-top: 10px;
+.transition {
+  @include transition-property(all);
+  @include transition-duration(0.2s);
+  @include transition-timing-function(linear);
 }
 
 h1,h2,h3,h4,h5,h6,body {
@@ -121,12 +92,6 @@ a {
   background: $gray;
 }
 
-.transition {
-  @include transition-property(all);
-  @include transition-duration(0.2s);
-  @include transition-timing-function(linear);
-}
-
 .btn {
     @include basePadding(8px 20px);
     font-size: 14px;
@@ -142,9 +107,6 @@ a {
   }
 }
 
-h1,h2,h3,h4,h5,h6 {
-}
-
 .title {
   font-weight: bold;
 }
@@ -158,8 +120,60 @@ h1,h2,h3,h4,h5,h6 {
   }
 }
 
+#error_message {
+  font-family: "HIragino Kaku Gothic Pro", Osaka, Meiryo, "メイリオ", "ＭＳ Ｐゴシック", "MS P Gothic", sans-serif;
+  border: 2px solid #00ffff;
+  border-radius: 10px;
+  padding: 10px 20px;
+  text-align: center;
+  line-height: 20px;
+  color: #ff5500;
+  h2 {
+    color: #ff5500;
+    margin: 0;
+  }
+}
+
+#map {
+  @include map;
+}
+
+#show-map {
+  @include map;
+  margin-top: 10px;
+}
+
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.loading {
+  height: 100vh;
+  width: 100%;
+  z-index: 10;
+  background: rgba(255,255,255,0.95);
+  position: fixed;
+  top: 0;
+  .loading-gif {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+  }
+}
+
+body {
+  padding-top: 76px;
+  // background: #fff;
+  // background-image: url("DSC_2157.JPG"); 
+  // background-repeat:  no-repeat;
+}
 
 header.header {
+  width: 100%;
   @include basePadding;
   border-bottom: 1px solid $gray;
   background: white;
@@ -168,18 +182,24 @@ header.header {
   left: 0;
   right: 0;
   z-index: 5;
-  div.header__bar.row {
-    position: relative;
+  div.header__bar {
+    // min-width: 830px;
     h1.grid-6 {
       font-family: 'Caveat Brush','Kalam',cursive;
       font-size: 50px;
       font-weight: 900;
       line-height: 50px;
       float: left;
-      margin-left: 30px;
+      margin: 0 30px;
       a {
         display: block;
       }
+    }
+    h3.sub-title {
+      display: inline-block;
+      height: 100%;
+      line-height: 55px;
+      color: $accent;
     }
     div.grid-6 {
       float: right;
@@ -536,14 +556,15 @@ footer {
 @media (max-width: 768px) {
   body {
     width: 800px;
+    padding-top: 76px;
   }
   .search-form {
     text-align: left;
     padding-top: 10px;
   }
-  header.header div.header__bar.row {
-    display: flex;
-    align-items: center;
+  header.header div.header__bar {
+    // position: relative;
+    // width: 800px;
     h1 {
       font-size: 40px;
       margin: 0 30px;
@@ -551,10 +572,11 @@ footer {
     h3.sub-title {
       color: $accent;
       font-size: 20px;
+      line-height: 50px;
     }
     div.grid-6 {
       position: absolute;
-      top: 72px;
+      top: 85px;
       right: 7px;
       a.post {
         background: #fff;

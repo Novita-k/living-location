@@ -76,3 +76,10 @@ $(function() {
     });
   });
 });
+
+// ページローディング
+$(document).on('turbolinks:load', function() {
+  setTimeout(function() {
+    $('.loading').fadeOut();
+  },600)
+});

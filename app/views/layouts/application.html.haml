@@ -15,11 +15,11 @@
   %body
     = render 'layouts/notifications'
     %header.header
-      .header__bar.row
+      .header__bar.row.clearfix
         %h1.grid-6
           = link_to "Living Location", root_path, "data-turbolinks": false
-        %h3.sub-title
-          Meet the "now" of the creatures!
+        -# %h3.sub-title
+        -#   Meet the "now" of the creatures!
         - if user_signed_in?
           .user_nav.grid-6
             .user-menu
@@ -62,4 +62,6 @@
     %footer
       %p
         Copyright livinglocation 2020.
+    .loading
+      = image_tag 'loading01.gif', class: 'loading-gif'
 -# handler.getMap().setCenter({lat: #{raw @hash.first.values.first.to_json}, lng: #{raw @hash.first.values.second.to_json}}); //最新のレコードの位置情報をセット
