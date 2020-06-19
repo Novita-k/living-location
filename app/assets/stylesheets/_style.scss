@@ -149,6 +149,7 @@ a {
   clear: both;
 }
 
+// ページローディング
 .loading {
   height: 100vh;
   width: 100%;
@@ -160,9 +161,21 @@ a {
     position: absolute;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -50%);
     width: 100px;
     height: 100px;
   }
+}
+
+// イメージフェードイン
+[data-fadein] {
+  opacity: 0;
+  transition: all 0.5s;
+  transform: translateY(30%);
+}
+[data-fadein].is-over {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 body {

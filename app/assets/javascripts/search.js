@@ -83,3 +83,12 @@ $(document).on('turbolinks:load', function() {
     $('.loading').fadeOut();
   },600)
 });
+
+// イメージフェードイン
+$(window).on('scroll',function() {
+  $('[data-fadein').each(function(index,el) {
+    if($(window).scrollTop() > ($(el).offset().top - $(window).height() / 2 - 400)){
+      $(el).addClass('is-over');
+    }
+  });
+});
