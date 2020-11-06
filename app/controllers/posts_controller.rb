@@ -39,7 +39,7 @@ before_action :move_to_index, except: [:index, :show, :search]
       @post.latitude = hash.gps.latitude
       @post.longitude = hash.gps.longitude
     elsif @post.address.nil? && results.first.nil? #addressが入力されているか、入力された物でgps情報を取得できるかチェック。
-      flash.now[:alert] = "画像に位置情報が有りません。実在する地名を住所欄に追加して下さい"
+      flash.now[:alert] = "画像に位置情報が含まれていません。google mapsで地名を調べて住所欄に追加して下さい"
       render "renew" and return
     end
 

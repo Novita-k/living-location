@@ -1,6 +1,7 @@
 .contents.row
   .container-new
     = render "layouts/error_messages", resource: @post
+    =link_to 'Google Mapsを別ウィンドウで開く', "https://www.google.co.jp/maps/", target: :_blank, rel: "noopener noreferrer"
     = form_with(model: @post, local: true) do |form|
       %h3
         投稿する
